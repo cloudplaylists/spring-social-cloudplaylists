@@ -1,3 +1,5 @@
+package org.springframework.social.cloudplaylists.api.impl.json;
+
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -13,20 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.cloudplaylists.api;
-
-import org.springframework.data.domain.Page;
-
 import com.cloudplaylists.domain.Application;
 import com.cloudplaylists.domain.Playlist;
-import com.cloudplaylists.domain.PlaylistUpdate;
 
 /**
  * @author Michael Lavelle
  */
-public interface MeOperations extends UserOperations {
-
-	public Playlist createPlaylist(PlaylistUpdate playlistUpdate);
-	public Page<Application> getApplications();
+public class ApplicationPage extends PageContainer<Application> {
 
 }

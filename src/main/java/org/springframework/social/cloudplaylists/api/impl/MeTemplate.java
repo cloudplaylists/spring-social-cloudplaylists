@@ -15,9 +15,13 @@
  */
 package org.springframework.social.cloudplaylists.api.impl;
 
+import org.springframework.data.domain.Page;
 import org.springframework.social.cloudplaylists.api.MeOperations;
+import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
+import org.springframework.social.cloudplaylists.api.impl.json.PlaylistPage;
 import org.springframework.web.client.RestTemplate;
 
+import com.cloudplaylists.domain.Application;
 import com.cloudplaylists.domain.CloudPlaylistsProfile;
 import com.cloudplaylists.domain.Playlist;
 import com.cloudplaylists.domain.PlaylistUpdate;
@@ -48,6 +52,14 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		requireAuthorization();
 		return restTemplate.postForObject(getApiResourceUrl("/playlists"),
 				playlistUpdate, Playlist.class);
+	}
+	
+	@Override
+	public Page<Application> getApplications() {
+
+		return restTemplate.getForObject(getApiResourceUrl("/apps"),
+				ApplicationPage.class);
+
 	}
 
 }
