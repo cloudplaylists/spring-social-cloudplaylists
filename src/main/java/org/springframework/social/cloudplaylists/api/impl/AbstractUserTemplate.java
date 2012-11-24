@@ -17,11 +17,14 @@ package org.springframework.social.cloudplaylists.api.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.social.cloudplaylists.api.UserOperations;
+import org.springframework.social.cloudplaylists.api.impl.json.PlaylistDescriptorPage;
 import org.springframework.social.cloudplaylists.api.impl.json.PlaylistPage;
 import org.springframework.web.client.RestTemplate;
 
 import com.cloudplaylists.domain.CloudPlaylistsProfile;
 import com.cloudplaylists.domain.Playlist;
+import com.cloudplaylists.domain.PlaylistDescriptor;
+import com.cloudplaylists.domain.SimplePlaylistDescriptor;
 
 /**
  * @author Michael Lavelle
@@ -45,6 +48,14 @@ public abstract class AbstractUserTemplate extends
 
 		return restTemplate.getForObject(getApiResourceUrl("/playlists"),
 				PlaylistPage.class);
+
+	}
+	
+	@Override
+	public Page<? extends PlaylistDescriptor> getPlaylistDescriptors() {
+
+		return restTemplate.getForObject(getApiResourceUrl("/playlists/descriptors"),
+				PlaylistDescriptorPage.class);
 
 	}
 
