@@ -1,3 +1,4 @@
+package org.springframework.social.cloudplaylists.api;
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -13,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.cloudplaylists.api;
+import org.springframework.data.domain.Page;
 
+import com.cloudplaylists.domain.PlaylistDescriptor;
 /**
  * @author Michael Lavelle
  */
-public interface CloudPlaylists {
+public interface PlaylistOperations {
 
-	public MeOperations meOperations();
-
-	public UsersOperations usersOperations();
-
-	public PlaylistOperations playlistOperations();
+	public Page<? extends PlaylistDescriptor> getPlaylistDescriptors();
 }

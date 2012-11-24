@@ -24,6 +24,7 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.cloudplaylists.api.CloudPlaylists;
 import org.springframework.social.cloudplaylists.api.MeOperations;
+import org.springframework.social.cloudplaylists.api.PlaylistOperations;
 import org.springframework.social.cloudplaylists.api.UsersOperations;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
@@ -37,7 +38,8 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 
 	private MeOperations meOperations;
 	private UsersOperations usersOperations;
-
+	private PlaylistOperations playlistOperations;
+	
 	private ObjectMapper objectMapper;
 
 	/**
@@ -82,6 +84,10 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 				isAuthorized());
 		usersOperations = new UsersTemplate(oauthApiBaseUrl, getRestTemplate(),
 				isAuthorized());
+		
+		playlistOperations = new PlaylistTemplate(oauthApiBaseUrl, getRestTemplate(),
+				isAuthorized());
+
 
 	}
 
@@ -116,6 +122,11 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 	@Override
 	public UsersOperations usersOperations() {
 		return usersOperations;
+	}
+	
+	@Override
+	public PlaylistOperations playlistOperations() {
+		return playlistOperations;
 	}
 
 }
