@@ -15,6 +15,8 @@
  */
 package org.springframework.social.cloudplaylists.api.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
@@ -60,6 +62,26 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		return restTemplate.getForObject(getApiResourceUrl("/apps"),
 				ApplicationPage.class);
 
+	}
+
+	@Override
+	public Playlist updatePlaylist(String playlistName, List<String> urls) {
+		requireAuthorization();
+		restTemplate.put(getApiResourceUrl("/playlists/" + playlistName), urls);
+		return getPlaylist(playlistName);
+	}
+
+	@Override
+	public Playlist addToPlaylist(String playlistName, List<String> urls) {
+		requireAuthorization();
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName),
+				urls, Playlist.class);
+	}
+
+	@Override
+	public void deletePlaylist(String playlistName) {
+		requireAuthorization();
+		restTemplate.delete(getApiResourceUrl("/playlists/" + playlistName));
 	}
 
 }

@@ -15,6 +15,8 @@
  */
 package org.springframework.social.cloudplaylists.api;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.cloudplaylists.domain.Application;
@@ -27,6 +29,9 @@ import com.cloudplaylists.domain.PlaylistUpdate;
 public interface MeOperations extends UserOperations {
 
 	public Playlist createPlaylist(PlaylistUpdate playlistUpdate);
+	public Playlist updatePlaylist(String playlistName,List<String> urls);
+	public Playlist addToPlaylist(String playlistName,List<String> urls);
+	public void deletePlaylist(String playlistName);
 	public Page<Application> getApplications();
 
 }
