@@ -1,2 +1,3 @@
-spring-social-sparklr
-=====================
+spring-social-cloudplaylists
+============================
+
