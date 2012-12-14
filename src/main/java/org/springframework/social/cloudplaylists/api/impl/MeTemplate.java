@@ -20,7 +20,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
-import org.springframework.social.cloudplaylists.api.impl.json.PlaylistPage;
 import org.springframework.web.client.RestTemplate;
 
 import com.cloudplaylists.domain.Application;
@@ -58,7 +57,7 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	
 	@Override
 	public Page<Application> getApplications() {
-
+		requireAuthorization();
 		return restTemplate.getForObject(getApiResourceUrl("/apps"),
 				ApplicationPage.class);
 
@@ -83,5 +82,22 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		requireAuthorization();
 		restTemplate.delete(getApiResourceUrl("/playlists/" + playlistName));
 	}
+
+	@Override
+	public Playlist publishCurrentPlaylist(String publishedPlaylistName) {
+		requireAuthorization();
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/currentPlaylist/publish?title=" + publishedPlaylistName)
+				,null, Playlist.class);
+	}
+
+	@Override
+	public Playlist deleteTrackFromPlaylist(String playlistName, int trackIndex) {
+		requireAuthorization();
+
+		restTemplate.delete(getApiResourceUrl("/playlists/" + playlistName+ "/tracks/" + trackIndex));
+		return getPlaylist(playlistName);
+	}
+
+
 
 }

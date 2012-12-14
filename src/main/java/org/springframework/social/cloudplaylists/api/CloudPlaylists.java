@@ -25,4 +25,6 @@ public interface CloudPlaylists {
 	public UsersOperations usersOperations();
 
 	public PlaylistOperations playlistOperations();
+	
+	public SearchOperations searchOperations();
 }

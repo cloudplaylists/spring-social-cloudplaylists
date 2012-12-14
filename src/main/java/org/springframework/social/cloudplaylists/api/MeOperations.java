@@ -29,8 +29,10 @@ import com.cloudplaylists.domain.PlaylistUpdate;
 public interface MeOperations extends UserOperations {
 
 	public Playlist createPlaylist(PlaylistUpdate playlistUpdate);
+	public Playlist publishCurrentPlaylist(String publishedPlaylistName);
 	public Playlist updatePlaylist(String playlistName,List<String> urls);
 	public Playlist addToPlaylist(String playlistName,List<String> urls);
+	public Playlist deleteTrackFromPlaylist(String playlistName,int trackIndex);
 	public void deletePlaylist(String playlistName);
 	public Page<Application> getApplications();
 

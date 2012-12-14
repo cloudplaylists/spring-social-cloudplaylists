@@ -25,8 +25,10 @@ import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.cloudplaylists.api.CloudPlaylists;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.PlaylistOperations;
+import org.springframework.social.cloudplaylists.api.SearchOperations;
 import org.springframework.social.cloudplaylists.api.UsersOperations;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
+import org.springframework.social.soundcloud.api.impl.json.SoundCloudModule;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,6 +41,7 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 	private MeOperations meOperations;
 	private UsersOperations usersOperations;
 	private PlaylistOperations playlistOperations;
+	private SearchOperations searchOperations;
 	
 	private ObjectMapper objectMapper;
 
@@ -88,6 +91,8 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 		playlistOperations = new PlaylistTemplate(oauthApiBaseUrl, getRestTemplate(),
 				isAuthorized());
 
+		searchOperations = new SearchTemplate(oauthApiBaseUrl, getRestTemplate(),
+				isAuthorized());
 
 	}
 
@@ -104,6 +109,7 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 
 	private void registerSoundCloudJsonModule(RestTemplate restTemplate) {
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new SoundCloudModule());
 		List<HttpMessageConverter<?>> converters = restTemplate
 				.getMessageConverters();
 		for (HttpMessageConverter<?> converter : converters) {
@@ -127,6 +133,11 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 	@Override
 	public PlaylistOperations playlistOperations() {
 		return playlistOperations;
+	}
+	
+	@Override
+	public SearchOperations searchOperations() {
+		return searchOperations;
 	}
 
 }

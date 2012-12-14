@@ -24,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 import com.cloudplaylists.domain.CloudPlaylistsProfile;
 import com.cloudplaylists.domain.Playlist;
 import com.cloudplaylists.domain.PlaylistDescriptor;
-import com.cloudplaylists.domain.SimplePlaylistDescriptor;
 
 /**
  * @author Michael Lavelle
@@ -52,7 +51,7 @@ public abstract class AbstractUserTemplate extends
 	}
 	
 	@Override
-	public Page<? extends PlaylistDescriptor> getPlaylistDescriptors() {
+	public Page<PlaylistDescriptor> getPlaylistDescriptors() {
 
 		return restTemplate.getForObject(getApiResourceUrl("/playlists/descriptors"),
 				PlaylistDescriptorPage.class);

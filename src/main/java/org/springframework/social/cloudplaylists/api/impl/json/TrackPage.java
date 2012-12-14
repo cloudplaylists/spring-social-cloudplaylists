@@ -15,11 +15,12 @@ package org.springframework.social.cloudplaylists.api.impl.json;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.cloudplaylists.domain.Application;
+import org.springframework.social.soundcloud.api.Track;
+
 
 /**
  * @author Michael Lavelle
  */
-public class ApplicationPage extends PageContainer<Application> {
+public class TrackPage extends PageContainer<Track> {
 
 }
