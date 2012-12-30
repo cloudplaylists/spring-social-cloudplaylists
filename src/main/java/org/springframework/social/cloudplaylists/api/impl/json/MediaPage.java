@@ -1,4 +1,5 @@
-package org.springframework.social.cloudplaylists.api;
+package org.springframework.social.cloudplaylists.api.impl.json;
+
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -14,13 +15,12 @@ package org.springframework.social.cloudplaylists.api;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.springframework.data.domain.Page;
+import com.cloudplaylists.domain.Media;
 
-import com.cloudplaylists.domain.PlaylistDescriptor;
+
 /**
  * @author Michael Lavelle
  */
-public interface PlaylistOperations {
+public class MediaPage extends PageContainer<Media> {
 
-	public Page<? extends PlaylistDescriptor> getPlaylistDescriptors();
 }

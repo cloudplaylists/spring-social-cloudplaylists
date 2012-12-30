@@ -16,10 +16,12 @@
 package org.springframework.social.cloudplaylists.api;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
 import com.cloudplaylists.domain.Application;
+import com.cloudplaylists.domain.Media;
 import com.cloudplaylists.domain.Playlist;
 import com.cloudplaylists.domain.PlaylistUpdate;
 
@@ -35,5 +37,7 @@ public interface MeOperations extends UserOperations {
 	public Playlist deleteTrackFromPlaylist(String playlistName,int trackIndex);
 	public void deletePlaylist(String playlistName);
 	public Page<Application> getApplications();
+	public Set<String> getConnections();
+	public Media loveOnExFm(String url);
 
 }

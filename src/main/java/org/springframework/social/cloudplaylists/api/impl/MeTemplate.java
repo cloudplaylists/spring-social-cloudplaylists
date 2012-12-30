@@ -16,14 +16,17 @@
 package org.springframework.social.cloudplaylists.api.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
+import org.springframework.social.cloudplaylists.api.impl.json.ProviderSet;
 import org.springframework.web.client.RestTemplate;
 
 import com.cloudplaylists.domain.Application;
 import com.cloudplaylists.domain.CloudPlaylistsProfile;
+import com.cloudplaylists.domain.Media;
 import com.cloudplaylists.domain.Playlist;
 import com.cloudplaylists.domain.PlaylistUpdate;
 
@@ -62,6 +65,17 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 				ApplicationPage.class);
 
 	}
+	
+	
+
+	
+	@Override
+	public Set<String> getConnections() {
+		requireAuthorization();
+		return restTemplate.getForObject(getApiResourceUrl("/connections"),
+				ProviderSet.class);
+
+	}
 
 	@Override
 	public Playlist updatePlaylist(String playlistName, List<String> urls) {
@@ -75,6 +89,14 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		requireAuthorization();
 		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName),
 				urls, Playlist.class);
+	}
+	
+	
+	@Override
+	public Media loveOnExFm(String url) {
+		requireAuthorization();
+		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url),
+				null, Media.class);
 	}
 
 	@Override
