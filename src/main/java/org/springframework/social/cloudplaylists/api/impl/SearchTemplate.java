@@ -42,8 +42,8 @@ public class SearchTemplate extends AbstractCloudPlaylistsResourceOperations
 	}
 
 	@Override
-	public Media resolveMedia(String url, MediaProvider mediaProvider) {
-		return restTemplate.getForObject(getApiResourceUrl("/media/" + mediaProvider.providerId().toLowerCase() + "?url=" + url),
+	public Media resolveMedia(String url, MediaProvider mediaProvider,boolean validate) {
+		return restTemplate.getForObject(getApiResourceUrl("/media/" + mediaProvider.providerId().toLowerCase() + "?url=" + url + (validate ? "&validate=true" : "")),
 				Media.class);
 	}
 

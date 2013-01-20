@@ -39,5 +39,8 @@ public interface MeOperations extends UserOperations {
 	public Page<Application> getApplications();
 	public Set<String> getConnections();
 	public Media loveOnExFm(String url);
+	public Playlist importExFmLovedSongs();
+	public Playlist importSoundCloudFavorites();
+
 
 }

@@ -120,6 +120,20 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		return getPlaylist(playlistName);
 	}
 
+	@Override
+	public Playlist importExFmLovedSongs() {
+		requireAuthorization();
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/exfm_loved_songs/import")
+				,null, Playlist.class);
+	}
+
+	@Override
+	public Playlist importSoundCloudFavorites() {
+		requireAuthorization();
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/soundcloud_favorites/import")
+				,null, Playlist.class);
+	}
+
 
 
 }

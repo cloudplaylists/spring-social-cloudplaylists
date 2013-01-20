@@ -64,17 +64,7 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 		
 		
 		Map errorDetails = extractErrorDetailsFromResponse(response);
-
 		handleCloudPlaylistsError(response.getStatusCode(), errorDetails);
-		
-		/*
-		if (errorDetails == null || errorDetails.getStatus_code().equals("200")) {
-			handleUncategorizedError(response, errorDetails);
-		}
-		*/
-	
-		// if not otherwise handled, do default handling and wrap with
-		// UncategorizedApiException
 		handleUncategorizedError(response, errorDetails);
 	}
 	
@@ -84,8 +74,6 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 	public boolean hasError(ClientHttpResponse response) throws IOException {
 
 		if (super.hasError(response)) {
-			//Status errorDetails = extractErrorDetailsFromResponse(response);
-			//return !isIgnorableError(errorDetails);
 			readFully(response.getBody());
 			return true;
 		}
@@ -97,9 +85,6 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 		String message = (String)errorDetails.get("error_description");
 
 		HttpStatus httpStatus = statusCode ;
-		
-		//!= HttpStatus.OK ? statusCode
-				//: HttpStatus.valueOf(Integer.parseInt(status.getStatus_code()));
 
 		if (httpStatus == HttpStatus.OK) {
 			// Should never happen

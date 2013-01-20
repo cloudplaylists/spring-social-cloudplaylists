@@ -12,7 +12,7 @@ public interface SearchOperations {
 
 	public Page<Media> searchSoundCloud(String q,Pageable pageable);
 	public Page<Media> searchSoundCloud(String q);
-	public Media resolveMedia(String url,MediaProvider mediaProvider);
+	public Media resolveMedia(String url,MediaProvider mediaProvider,boolean validate);
 	public Map<MediaProvider,Media> resolveMedia(String url);
 
 
