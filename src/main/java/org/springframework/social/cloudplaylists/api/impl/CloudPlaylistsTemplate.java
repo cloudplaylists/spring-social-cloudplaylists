@@ -15,9 +15,14 @@
  */
 package org.springframework.social.cloudplaylists.api.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
@@ -69,14 +74,19 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 		super(accessToken);
 		initialize(oauthApiBaseUrl, accessToken);
 	}
+	
+	
 
 	@Override
 	protected List<HttpMessageConverter<?>> getMessageConverters() {
-		List<HttpMessageConverter<?>> messageConverters = super
-				.getMessageConverters();
-		messageConverters.add(new ByteArrayHttpMessageConverter());
+		
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+		MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
+		messageConverters.add(jsonConverter);
 		return messageConverters;
 	}
+	
+	
 
 	private void initSubApis(String oauthApiBaseUrl, String accessToken) {
 
@@ -89,6 +99,8 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 				isAuthorized());
 
 	}
+	
+	
 
 	// private helpers
 	private void initialize(String apiBaseUrl, String accessToken) {

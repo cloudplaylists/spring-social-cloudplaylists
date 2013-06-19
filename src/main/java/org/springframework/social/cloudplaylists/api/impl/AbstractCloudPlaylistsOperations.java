@@ -15,6 +15,11 @@
  */
 package org.springframework.social.cloudplaylists.api.impl;
 
+import java.util.Arrays;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,6 +44,19 @@ public abstract class AbstractCloudPlaylistsOperations {
 			throw new MissingAuthorizationException();
 		}
 	}
+	
+
+	protected <T> void put(String url,T request)
+	{
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+		HttpEntity<T> entity = new HttpEntity<T>(request,headers);
+		restTemplate.put(url, entity);
+	}
+	
+	
 
 	protected String getApiBaseUrl() {
 		return apiBaseUrl;

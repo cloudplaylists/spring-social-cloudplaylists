@@ -36,6 +36,9 @@ import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.connect.NotConnectedException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
+import com.cloudplaylists.exceptions.PlaylistCreationException;
+import com.cloudplaylists.exceptions.PlaylistUpdateException;
+
 /**
  * Subclass of {@link DefaultResponseErrorHandler} that handles errors from
  * CloudPlaylists API, interpreting them into appropriate exceptions.
@@ -74,7 +77,6 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 	public boolean hasError(ClientHttpResponse response) throws IOException {
 
 		if (super.hasError(response)) {
-			readFully(response.getBody());
 			return true;
 		}
 		return false;
@@ -83,12 +85,25 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 	void handleCloudPlaylistsError(HttpStatus statusCode, Map errorDetails) {
 
 		String message = (String)errorDetails.get("error_description");
-
 		HttpStatus httpStatus = statusCode ;
 
 		if (httpStatus == HttpStatus.OK) {
 			// Should never happen
 		} else if (httpStatus == HttpStatus.BAD_REQUEST) {
+			
+			String error = (String)errorDetails.get("error");
+			String error_description = (String)errorDetails.get("error_description");
+
+			if (error != null &&  PlaylistUpdateException.class.getName().equals(error))
+			{
+				throw new PlaylistUpdateException(error_description);
+			}
+			if (error != null &&  PlaylistCreationException.class.getName().equals(error))
+			{
+				throw new PlaylistCreationException(error_description);
+			}
+			
+			
 			throw new ResourceNotFoundException(message);
 
 		} else if (httpStatus == HttpStatus.NOT_FOUND) {

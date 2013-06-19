@@ -15,20 +15,31 @@
  */
 package org.springframework.social.cloudplaylists.api.impl;
 
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
+import org.springframework.social.cloudplaylists.api.impl.json.MediaList;
+import org.springframework.social.cloudplaylists.api.impl.json.PlaylistDescriptorList;
 import org.springframework.social.cloudplaylists.api.impl.json.ProviderSet;
 import org.springframework.web.client.RestTemplate;
 
 import com.cloudplaylists.domain.Application;
 import com.cloudplaylists.domain.CloudPlaylistsProfile;
 import com.cloudplaylists.domain.Media;
+import com.cloudplaylists.domain.MediaProvider;
 import com.cloudplaylists.domain.Playlist;
+import com.cloudplaylists.domain.PlaylistDescriptor;
 import com.cloudplaylists.domain.PlaylistUpdate;
+import com.cloudplaylists.domain.PlaylistVisibility;
 
 /**
  * @author Michael Lavelle
@@ -80,7 +91,7 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	@Override
 	public Playlist updatePlaylist(String playlistName, List<String> urls) {
 		requireAuthorization();
-		restTemplate.put(getApiResourceUrl("/playlists/" + playlistName), urls);
+		put(getApiResourceUrl("/playlists/" + playlistName),urls);
 		return getPlaylist(playlistName);
 	}
 
@@ -96,6 +107,19 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	public Media loveOnExFm(String url) {
 		requireAuthorization();
 		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url),
+				null, Media.class);
+	}
+	
+	@Override
+	public Media loveOnExFm(String url,String fromPlaylistUserName,String fromPlaylistName) {
+		requireAuthorization();
+		String contextString = "";
+		if (fromPlaylistUserName != null && fromPlaylistName != null)
+		{
+			contextString = "&fromPlaylistUserName=" + URLEncoder.encode(fromPlaylistUserName)
+			+ "&fromPlaylistName=" + URLEncoder.encode(fromPlaylistName);
+		}
+		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url + contextString),
 				null, Media.class);
 	}
 
@@ -132,6 +156,62 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 		requireAuthorization();
 		return restTemplate.postForObject(getApiResourceUrl("/playlists/soundcloud_favorites/import")
 				,null, Playlist.class);
+	}
+
+	@Override
+	public List<Media> searchLibrary(String q, MediaProvider[]  providers) {
+		requireAuthorization();
+		String providersString = null;;
+		for (MediaProvider provider : providers)
+		{
+			if (providersString != null)
+			{
+				providersString = providersString + ",";
+			}
+			else
+			{
+				providersString = "";
+			}
+			providersString = providersString + provider.name();
+		}
+		
+		
+		String queryString = "?q=" + q + (providersString == null ? "" : ("&providers=" + providersString));
+		return restTemplate.getForObject(getApiResourceUrl("/library" + queryString),
+				MediaList.class);
+	}
+	
+	@Override
+	public List<PlaylistDescriptor> searchPlaylists(String q, MediaProvider[]  providers) {
+		requireAuthorization();
+		String providersString = null;;
+		for (MediaProvider provider : providers)
+		{
+			if (providersString != null)
+			{
+				providersString = providersString + ",";
+			}
+			else
+			{
+				providersString = "";
+			}
+			providersString = providersString + provider.name();
+		}
+		
+		
+		String queryString = "?q=" + q + (providersString == null ? "" : ("&providers=" + providersString));
+		return restTemplate.getForObject(getApiResourceUrl("/searchPlaylists" + queryString),
+				PlaylistDescriptorList.class);
+	}
+
+	@Override
+	public Playlist updatePlaylistVisibility(String playlistName,
+			PlaylistVisibility playlistVisibility) {
+		
+		requireAuthorization();
+	
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName + "/playlistVisibility"),
+				playlistVisibility, Playlist.class);
 	}
 
 

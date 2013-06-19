@@ -48,6 +48,7 @@ public class CloudPlaylistsAdapter implements ApiAdapter<CloudPlaylists> {
 		values.setProviderUserId(profile.getUserName());
 		values.setDisplayName(profile.getDisplayName());
 		values.setProfileUrl(profile.getProfileUrl());
+		values.setImageUrl(profile.getImageUrl());
 	}
 
 	@Override
