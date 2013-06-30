@@ -181,27 +181,41 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 				MediaList.class);
 	}
 	
+	
+	@Override
+	public List<Media> searchTracks(String q, MediaProvider[]  providers) {
+		requireAuthorization();
+		String providersAsString = getProvidersAsString(providers);
+		String queryString = "?q=" + q + (providersAsString == null ? "" : ("&providers=" + providersAsString));
+		return restTemplate.getForObject(getApiResourceUrl("/searchTracks" + queryString),
+				MediaList.class);
+	}
+	
 	@Override
 	public List<PlaylistDescriptor> searchPlaylists(String q, MediaProvider[]  providers) {
 		requireAuthorization();
-		String providersString = null;;
+		String providersAsString = getProvidersAsString(providers);;
+		String queryString = "?q=" + q + (providersAsString == null ? "" : ("&providers=" + providersAsString));
+		return restTemplate.getForObject(getApiResourceUrl("/searchPlaylists" + queryString),
+				PlaylistDescriptorList.class);
+	}
+	
+	private String getProvidersAsString(MediaProvider[] providers)
+	{
+		String providersAsString = null;;
 		for (MediaProvider provider : providers)
 		{
-			if (providersString != null)
+			if (providersAsString != null)
 			{
-				providersString = providersString + ",";
+				providersAsString = providersAsString + ",";
 			}
 			else
 			{
-				providersString = "";
+				providersAsString = "";
 			}
-			providersString = providersString + provider.name();
+			providersAsString = providersAsString + provider.name();
 		}
-		
-		
-		String queryString = "?q=" + q + (providersString == null ? "" : ("&providers=" + providersString));
-		return restTemplate.getForObject(getApiResourceUrl("/searchPlaylists" + queryString),
-				PlaylistDescriptorList.class);
+		return providersAsString;
 	}
 
 	@Override

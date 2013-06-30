@@ -47,6 +47,7 @@ public interface MeOperations extends UserOperations {
 	public Playlist importExFmLovedSongs();
 	public Playlist importSoundCloudFavorites();
 	public List<Media> searchLibrary(String q,MediaProvider[] mediaProviders);
+	public List<Media> searchTracks(String q,MediaProvider[] mediaProviders);
 	public List<PlaylistDescriptor> searchPlaylists(String q,MediaProvider[] mediaProviders);
 
 
