@@ -1,0 +1,1 @@
+http\://www.springframework.org/schema/social/cloudplaylists=org.springframework.social.cloudplaylists.config.xml.CloudPlaylistsNamespaceHandler

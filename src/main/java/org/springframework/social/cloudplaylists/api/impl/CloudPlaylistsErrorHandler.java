@@ -54,9 +54,9 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 		} catch (Exception e) {
 			if (errorDetails != null && errorDetails.get("error_description") != null) {
 				String m = (String)errorDetails.get("error_description");
-				throw new UncategorizedApiException(m, e);
+				throw new UncategorizedApiException("cloudplaylists",m, e);
 			} else {
-				throw new UncategorizedApiException(
+				throw new UncategorizedApiException("cloudplaylists",
 						"No error details from CloudPlaylists", e);
 			}
 		}
@@ -104,14 +104,14 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 			}
 			
 			
-			throw new ResourceNotFoundException(message);
+			throw new ResourceNotFoundException("cloudplaylists",message);
 
 		} else if (httpStatus == HttpStatus.NOT_FOUND) {
-			throw new ResourceNotFoundException(message);
+			throw new ResourceNotFoundException("cloudplaylists",message);
 
 		} else if (httpStatus == HttpStatus.UNAUTHORIZED) {
 
-			throw new NotAuthorizedException(message);
+			throw new NotAuthorizedException("cloudplaylists",message);
 		} else if (httpStatus == HttpStatus.FORBIDDEN) {
 			String provider = (String)errorDetails.get("provider");
 			String error = (String)errorDetails.get("error");
@@ -119,11 +119,11 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 			{
 				throw new NotConnectedException(provider);
 			}
-			throw new OperationNotPermittedException(message);
+			throw new OperationNotPermittedException("cloudplaylists",message);
 		} else if (httpStatus == HttpStatus.INTERNAL_SERVER_ERROR) {
-			throw new InternalServerErrorException(message);
+			throw new InternalServerErrorException("cloudplaylists",message);
 		} else if (httpStatus == HttpStatus.SERVICE_UNAVAILABLE) {
-			throw new ServerDownException(message);
+			throw new ServerDownException("cloudplaylists",message);
 		}
 	}
 	

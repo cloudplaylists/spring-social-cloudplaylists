@@ -16,15 +16,10 @@
 package org.springframework.social.cloudplaylists.api.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.cloudplaylists.api.CloudPlaylists;
@@ -34,6 +29,8 @@ import org.springframework.social.cloudplaylists.api.UsersOperations;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Michael Lavelle
@@ -101,29 +98,29 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 	}
 	
 	
+	@Override
+	protected void configureRestTemplate(RestTemplate restTemplate) {
+		restTemplate.setErrorHandler(new CloudPlaylistsErrorHandler());
+	}
+
+	@Override
+	protected MappingJackson2HttpMessageConverter getJsonMessageConverter() {
+		MappingJackson2HttpMessageConverter converter = super
+				.getJsonMessageConverter();
+		objectMapper = new ObjectMapper();
+		converter.setObjectMapper(objectMapper);
+		return converter;
+	}
+	
 
 	// private helpers
 	private void initialize(String apiBaseUrl, String accessToken) {
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so
 		// that the error handler can do repeat reads on the response.getBody()
-		registerSoundCloudJsonModule(getRestTemplate());
 		super.setRequestFactory(ClientHttpRequestFactorySelector
 				.bufferRequests(getRestTemplate().getRequestFactory()));
 		initSubApis(apiBaseUrl, accessToken);
 
-	}
-
-	private void registerSoundCloudJsonModule(RestTemplate restTemplate) {
-		objectMapper = new ObjectMapper();
-		restTemplate.setErrorHandler(new CloudPlaylistsErrorHandler());
-		List<HttpMessageConverter<?>> converters = restTemplate
-				.getMessageConverters();
-		for (HttpMessageConverter<?> converter : converters) {
-			if (converter instanceof MappingJacksonHttpMessageConverter) {
-				MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-				jsonConverter.setObjectMapper(objectMapper);
-			}
-		}
 	}
 
 	@Override

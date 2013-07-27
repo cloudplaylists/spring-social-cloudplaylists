@@ -41,7 +41,7 @@ public abstract class AbstractCloudPlaylistsOperations {
 
 	protected void requireAuthorization() {
 		if (!isAuthorizedForUser) {
-			throw new MissingAuthorizationException();
+			throw new MissingAuthorizationException("cloudplaylists");
 		}
 	}
 	
