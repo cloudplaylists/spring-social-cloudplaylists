@@ -27,6 +27,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InternalServerErrorException;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.OperationNotPermittedException;
@@ -118,6 +119,10 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 			if (error != null && provider != null && NotConnectedException.class.getName().equals(error))
 			{
 				throw new NotConnectedException(provider);
+			}
+			if (error != null && provider != null && ExpiredAuthorizationException.class.getName().equals(error))
+			{
+				throw new ExpiredAuthorizationException(provider);
 			}
 			throw new OperationNotPermittedException("cloudplaylists",message);
 		} else if (httpStatus == HttpStatus.INTERNAL_SERVER_ERROR) {
