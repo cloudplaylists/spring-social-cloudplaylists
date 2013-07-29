@@ -35,4 +35,11 @@ public class CloudPlaylistsConnectionFactory extends
 				new CloudPlaylistsAdapter());
 	}
 
+	@Override
+	public boolean supportsStateParameter() {
+		return false;
+	}
+	
+	
+
 }
