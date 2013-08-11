@@ -16,15 +16,10 @@
 package org.springframework.social.cloudplaylists.api.impl;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.social.cloudplaylists.api.MeOperations;
 import org.springframework.social.cloudplaylists.api.impl.json.ApplicationPage;
 import org.springframework.social.cloudplaylists.api.impl.json.MediaList;
