@@ -27,11 +27,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 
-
 /**
- * Annotation to enable SoundCloud in a Spring Social application.
- * Configures a {@link SoundCloudConnectionFactory} bean (and a {@link ConnectionFactoryLocator} bean if one isn't already registered).
- * Also configures a request-scoped {@link SoundCloud} bean fetched from the current user's {@link ConnectionRepository}. 
+ * Annotation to enable SoundCloud in a Spring Social application. Configures a
+ * {@link SoundCloudConnectionFactory} bean (and a
+ * {@link ConnectionFactoryLocator} bean if one isn't already registered). Also
+ * configures a request-scoped {@link SoundCloud} bean fetched from the current
+ * user's {@link ConnectionRepository}.
+ * 
  * @author Michael Lavelle
  */
 @Target(ElementType.TYPE)
@@ -45,17 +47,16 @@ public @interface EnableCloudPlaylists {
 	 * The application's App ID as issued by CloudPlaylists.
 	 */
 	String appId();
-	
+
 	/**
 	 * The application's App Secret as issued by CloudPlaylists.
 	 */
 	String appSecret();
-	
-	
+
 	String oauthAuthorizeUrl() default "http://api.cloudplaylists.com/oauth/authorize";
-	
+
 	String oauthTokenUrl() default "http://api.cloudplaylists.com/oauth/token";
-	
+
 	String oauthApiBaseUrl() default "http://api.cloudplaylists.com";
-	
+
 }

@@ -24,22 +24,18 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
  * 
  * @author Michael Lavelle
  */
-public class CloudPlaylistsServiceProvider extends
-		AbstractOAuth2ServiceProvider<CloudPlaylists> {
+public class CloudPlaylistsServiceProvider extends AbstractOAuth2ServiceProvider<CloudPlaylists> {
 
 	private String oauthApiBaseUrl;
 
-	public CloudPlaylistsServiceProvider(String clientId, String clientSecret,
-			String oauthAuthorizeUrl, String oauthTokenUrl,
-			String oauthApiBaseUrl) {
-		super(new CloudPlaylistsOAuth2Template(clientId, clientSecret,
-				oauthAuthorizeUrl, oauthTokenUrl));
+	public CloudPlaylistsServiceProvider(String clientId, String clientSecret, String oauthAuthorizeUrl,
+			String oauthTokenUrl, String oauthApiBaseUrl) {
+		super(new CloudPlaylistsOAuth2Template(clientId, clientSecret, oauthAuthorizeUrl, oauthTokenUrl));
 		this.oauthApiBaseUrl = oauthApiBaseUrl;
 	}
 
 	public CloudPlaylistsServiceProvider(String clientId, String clientSecret) {
-		super(new CloudPlaylistsOAuth2Template(clientId, clientSecret,
-				"http://api.cloudplaylists.com/oauth/authorize",
+		super(new CloudPlaylistsOAuth2Template(clientId, clientSecret, "http://api.cloudplaylists.com/oauth/authorize",
 				"http://api.cloudplaylists.com/oauth/token"));
 		this.oauthApiBaseUrl = "http://api.cloudplaylists.com";
 	}

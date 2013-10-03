@@ -40,8 +40,7 @@ public class CloudPlaylistsAdapterTest {
 	public void fetchProfile() {
 		MeOperations meOperations = Mockito.mock(MeOperations.class);
 		Mockito.when(sparklr.meOperations()).thenReturn(meOperations);
-		Mockito.when(meOperations.getUserProfile()).thenReturn(
-				createCloudPlaylistsProfile());
+		Mockito.when(meOperations.getUserProfile()).thenReturn(createCloudPlaylistsProfile());
 
 		UserProfile profile = apiAdapter.fetchUserProfile(sparklr);
 		assertEquals("Matt Slip", profile.getName());
@@ -66,8 +65,7 @@ public class CloudPlaylistsAdapterTest {
 		MeOperations meOperations = Mockito.mock(MeOperations.class);
 
 		Mockito.when(sparklr.meOperations()).thenReturn(meOperations);
-		Mockito.when(meOperations.getUserProfile()).thenReturn(
-				createCloudPlaylistsProfile());
+		Mockito.when(meOperations.getUserProfile()).thenReturn(createCloudPlaylistsProfile());
 
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(sparklr, connectionValues);

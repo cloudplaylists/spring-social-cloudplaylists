@@ -23,6 +23,6 @@ public interface CloudPlaylists {
 	public MeOperations meOperations();
 
 	public UsersOperations usersOperations();
-	
+
 	public SearchOperations searchOperations();
 }

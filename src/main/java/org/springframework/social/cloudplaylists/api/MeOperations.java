@@ -34,22 +34,35 @@ import com.cloudplaylists.domain.PlaylistVisibility;
 public interface MeOperations extends UserOperations {
 
 	public Playlist createPlaylist(PlaylistUpdate playlistUpdate);
+
 	public Playlist publishCurrentPlaylist(String publishedPlaylistName);
-	public Playlist updatePlaylist(String playlistName,List<String> urls);
-	public Playlist updatePlaylistVisibility(String playlistName,PlaylistVisibility playlistVisibility);
-	public Playlist addToPlaylist(String playlistName,List<String> urls);
-	public Playlist deleteTrackFromPlaylist(String playlistName,int trackIndex);
+
+	public Playlist updatePlaylist(String playlistName, List<String> urls);
+
+	public Playlist updatePlaylistVisibility(String playlistName, PlaylistVisibility playlistVisibility);
+
+	public Playlist addToPlaylist(String playlistName, List<String> urls);
+
+	public Playlist deleteTrackFromPlaylist(String playlistName, int trackIndex);
+
 	public void deletePlaylist(String playlistName);
+
 	public Page<Application> getApplications();
-	public Set<String> getConnections(); 
+
+	public Set<String> getConnections();
+
 	public Media loveOnExFm(String url);
-	public Media loveOnExFm(String url,String fromPlaylistUserName,String fromPlaylistName);
+
+	public Media loveOnExFm(String url, String fromPlaylistUserName, String fromPlaylistName);
+
 	public Playlist importExFmLovedSongs();
+
 	public Playlist importSoundCloudFavorites();
-	public List<Media> searchLibrary(String q,MediaProvider[] mediaProviders);
-	public List<Media> searchTracks(String q,MediaProvider[] mediaProviders);
-	public List<PlaylistDescriptor> searchPlaylists(String q,MediaProvider[] mediaProviders);
 
+	public List<Media> searchLibrary(String q, MediaProvider[] mediaProviders);
 
+	public List<Media> searchTracks(String q, MediaProvider[] mediaProviders);
+
+	public List<PlaylistDescriptor> searchPlaylists(String q, MediaProvider[] mediaProviders);
 
 }

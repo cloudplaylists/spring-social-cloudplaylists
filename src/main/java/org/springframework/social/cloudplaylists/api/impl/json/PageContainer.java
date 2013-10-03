@@ -41,13 +41,10 @@ public class PageContainer<T> implements Page<T> {
 	private Sort sort;
 
 	private PageImpl<T> createPageImpl() {
-		if (content.size() > 0)
-		{
+		if (content.size() > 0) {
 			Pageable pageable = new PageRequest(number, size);
 			return new PageImpl<T>(content, pageable, totalElements);
-		}
-		else
-		{
+		} else {
 			return new PageImpl<T>(content);
 		}
 	}

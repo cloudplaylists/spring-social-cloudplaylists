@@ -48,31 +48,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 
-	private void handleUncategorizedError(ClientHttpResponse response,
-			Map errorDetails) {
+	private void handleUncategorizedError(ClientHttpResponse response, Map errorDetails) {
 		try {
 			super.handleError(response);
 		} catch (Exception e) {
 			if (errorDetails != null && errorDetails.get("error_description") != null) {
-				String m = (String)errorDetails.get("error_description");
-				throw new UncategorizedApiException("cloudplaylists",m, e);
+				String m = (String) errorDetails.get("error_description");
+				throw new UncategorizedApiException("cloudplaylists", m, e);
 			} else {
-				throw new UncategorizedApiException("cloudplaylists",
-						"No error details from CloudPlaylists", e);
+				throw new UncategorizedApiException("cloudplaylists", "No error details from CloudPlaylists", e);
 			}
 		}
 	}
 
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {
-		
-		
+
 		Map errorDetails = extractErrorDetailsFromResponse(response);
 		handleCloudPlaylistsError(response.getStatusCode(), errorDetails);
 		handleUncategorizedError(response, errorDetails);
 	}
-	
-
 
 	@Override
 	public boolean hasError(ClientHttpResponse response) throws IOException {
@@ -85,68 +80,59 @@ class CloudPlaylistsErrorHandler extends DefaultResponseErrorHandler {
 
 	void handleCloudPlaylistsError(HttpStatus statusCode, Map errorDetails) {
 
-		String message = (String)errorDetails.get("error_description");
-		HttpStatus httpStatus = statusCode ;
+		String message = (String) errorDetails.get("error_description");
+		HttpStatus httpStatus = statusCode;
 
 		if (httpStatus == HttpStatus.OK) {
 			// Should never happen
 		} else if (httpStatus == HttpStatus.BAD_REQUEST) {
-			
-			String error = (String)errorDetails.get("error");
-			String error_description = (String)errorDetails.get("error_description");
 
-			if (error != null &&  PlaylistUpdateException.class.getName().equals(error))
-			{
+			String error = (String) errorDetails.get("error");
+			String error_description = (String) errorDetails.get("error_description");
+
+			if (error != null && PlaylistUpdateException.class.getName().equals(error)) {
 				throw new PlaylistUpdateException(error_description);
 			}
-			if (error != null &&  PlaylistCreationException.class.getName().equals(error))
-			{
+			if (error != null && PlaylistCreationException.class.getName().equals(error)) {
 				throw new PlaylistCreationException(error_description);
 			}
-			
-			
-			throw new ResourceNotFoundException("cloudplaylists",message);
+
+			throw new ResourceNotFoundException("cloudplaylists", message);
 
 		} else if (httpStatus == HttpStatus.NOT_FOUND) {
-			throw new ResourceNotFoundException("cloudplaylists",message);
+			throw new ResourceNotFoundException("cloudplaylists", message);
 
 		} else if (httpStatus == HttpStatus.UNAUTHORIZED) {
 
-			throw new NotAuthorizedException("cloudplaylists",message);
+			throw new NotAuthorizedException("cloudplaylists", message);
 		} else if (httpStatus == HttpStatus.FORBIDDEN) {
-			String provider = (String)errorDetails.get("provider");
-			String error = (String)errorDetails.get("error");
-			if (error != null && provider != null && NotConnectedException.class.getName().equals(error))
-			{
+			String provider = (String) errorDetails.get("provider");
+			String error = (String) errorDetails.get("error");
+			if (error != null && provider != null && NotConnectedException.class.getName().equals(error)) {
 				throw new NotConnectedException(provider);
 			}
-			if (error != null && provider != null && ExpiredAuthorizationException.class.getName().equals(error))
-			{
+			if (error != null && provider != null && ExpiredAuthorizationException.class.getName().equals(error)) {
 				throw new ExpiredAuthorizationException(provider);
 			}
-			throw new OperationNotPermittedException("cloudplaylists",message);
+			throw new OperationNotPermittedException("cloudplaylists", message);
 		} else if (httpStatus == HttpStatus.INTERNAL_SERVER_ERROR) {
-			throw new InternalServerErrorException("cloudplaylists",message);
+			throw new InternalServerErrorException("cloudplaylists", message);
 		} else if (httpStatus == HttpStatus.SERVICE_UNAVAILABLE) {
-			throw new ServerDownException("cloudplaylists",message);
+			throw new ServerDownException("cloudplaylists", message);
 		}
 	}
-	
-
-	
 
 	/*
 	 * Attempts to extract ExFm error details from the response. Returns null if
 	 * the response doesn't match the expected JSON error response.
 	 */
 	@SuppressWarnings("rawtypes")
-	private Map extractErrorDetailsFromResponse(ClientHttpResponse response)
-			throws IOException {
+	private Map extractErrorDetailsFromResponse(ClientHttpResponse response) throws IOException {
 
 		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 		try {
 			String json = readFully(response.getBody());
-			HashMap errorDetails  = mapper.readValue(json, HashMap.class);
+			HashMap errorDetails = mapper.readValue(json, HashMap.class);
 			return errorDetails;
 		} catch (JsonParseException e) {
 			return null;

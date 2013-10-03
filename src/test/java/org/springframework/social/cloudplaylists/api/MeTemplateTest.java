@@ -35,17 +35,12 @@ public class MeTemplateTest extends AbstractCloudPlaylistsApiTest {
 
 	@Test
 	public void getUserProfile_currentUser() {
-		mockServer
-				.expect(requestTo(API_BASE_URL + "/me"))
-				.andExpect(method(GET))
-				.andRespond(
-						withResponse(jsonResource("testdata/full-profile"),
-								responseHeaders));
+		mockServer.expect(requestTo(API_BASE_URL + "/me")).andExpect(method(GET))
+				.andRespond(withResponse(jsonResource("testdata/full-profile"), responseHeaders));
 
 		mockServer.expect(header("Authorization", "Bearer " + ACCESS_TOKEN));
 
-		CloudPlaylistsProfile profile = cloudplaylists.meOperations()
-				.getUserProfile();
+		CloudPlaylistsProfile profile = cloudplaylists.meOperations().getUserProfile();
 		assertBasicProfileData(profile);
 	}
 
@@ -57,8 +52,7 @@ public class MeTemplateTest extends AbstractCloudPlaylistsApiTest {
 	private void assertBasicProfileData(CloudPlaylistsProfile profile) {
 		assertEquals("mattslip", profile.getUserName());
 		assertEquals("Matt Slip", profile.getDisplayName());
-		assertEquals("http://cloudplaylists.com/mattslip",
-				profile.getProfileUrl());
+		assertEquals("http://cloudplaylists.com/mattslip", profile.getProfileUrl());
 
 	}
 

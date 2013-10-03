@@ -21,11 +21,10 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Michael Lavelle
  */
-public abstract class AbstractCloudPlaylistsResourceOperations extends
-		AbstractCloudPlaylistsOperations {
+public abstract class AbstractCloudPlaylistsResourceOperations extends AbstractCloudPlaylistsOperations {
 
-	public AbstractCloudPlaylistsResourceOperations(String apiBaseUrl,
-			RestTemplate restTemplate, boolean isAuthorizedForUser) {
+	public AbstractCloudPlaylistsResourceOperations(String apiBaseUrl, RestTemplate restTemplate,
+			boolean isAuthorizedForUser) {
 		super(apiBaseUrl, restTemplate, isAuthorizedForUser);
 	}
 
@@ -34,9 +33,8 @@ public abstract class AbstractCloudPlaylistsResourceOperations extends
 	protected String getApiResourceUrl(String resourcePath, Pageable pageable) {
 		String resourceUrl = getApiResourceBaseUrl() + resourcePath;
 		if (pageable != null) {
-			resourceUrl = resourceUrl + getQuerySeparator(resourceUrl)
-					+ "results=" + pageable.getPageSize() + "&start="
-					+ pageable.getOffset();
+			resourceUrl = resourceUrl + getQuerySeparator(resourceUrl) + "results=" + pageable.getPageSize()
+					+ "&start=" + pageable.getOffset();
 		}
 		return resourceUrl;
 	}

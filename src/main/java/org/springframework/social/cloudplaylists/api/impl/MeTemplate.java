@@ -41,8 +41,7 @@ import com.cloudplaylists.domain.PlaylistVisibility;
  */
 public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 
-	public MeTemplate(String oauthApiBaseUrl, RestTemplate restTemplate,
-			boolean isAuthorizedForUser) {
+	public MeTemplate(String oauthApiBaseUrl, RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(oauthApiBaseUrl, restTemplate, isAuthorizedForUser);
 	}
 
@@ -60,62 +59,52 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	@Override
 	public Playlist createPlaylist(PlaylistUpdate playlistUpdate) {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/playlists"),
-				playlistUpdate, Playlist.class);
+		return restTemplate.postForObject(getApiResourceUrl("/playlists"), playlistUpdate, Playlist.class);
 	}
-	
+
 	@Override
 	public Page<Application> getApplications() {
 		requireAuthorization();
-		return restTemplate.getForObject(getApiResourceUrl("/apps"),
-				ApplicationPage.class);
+		return restTemplate.getForObject(getApiResourceUrl("/apps"), ApplicationPage.class);
 
 	}
-	
-	
 
-	
 	@Override
 	public Set<String> getConnections() {
 		requireAuthorization();
-		return restTemplate.getForObject(getApiResourceUrl("/connections"),
-				ProviderSet.class);
+		return restTemplate.getForObject(getApiResourceUrl("/connections"), ProviderSet.class);
 
 	}
 
 	@Override
 	public Playlist updatePlaylist(String playlistName, List<String> urls) {
 		requireAuthorization();
-		put(getApiResourceUrl("/playlists/" + playlistName),urls);
+		put(getApiResourceUrl("/playlists/" + playlistName), urls);
 		return getPlaylist(playlistName);
 	}
 
 	@Override
 	public Playlist addToPlaylist(String playlistName, List<String> urls) {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName),
-				urls, Playlist.class);
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName), urls, Playlist.class);
 	}
-	
-	
+
 	@Override
 	public Media loveOnExFm(String url) {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url),
-				null, Media.class);
+		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url), null, Media.class);
 	}
-	
+
 	@Override
-	public Media loveOnExFm(String url,String fromPlaylistUserName,String fromPlaylistName) {
+	public Media loveOnExFm(String url, String fromPlaylistUserName, String fromPlaylistName) {
 		requireAuthorization();
 		String contextString = "";
-		if (fromPlaylistUserName != null && fromPlaylistName != null)
-		{
-			contextString = "&fromPlaylistUserName=" + URLEncoder.encode(fromPlaylistUserName)
-			+ "&fromPlaylistName=" + URLEncoder.encode(fromPlaylistName);
+		if (fromPlaylistUserName != null && fromPlaylistName != null) {
+			contextString = "&fromPlaylistUserName=" + URLEncoder.encode(fromPlaylistUserName) + "&fromPlaylistName="
+					+ URLEncoder.encode(fromPlaylistName);
 		}
-		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url + contextString),
-				null, Media.class);
+		return restTemplate.postForObject(getApiResourceUrl("/loveOnExFm?url=" + url + contextString), null,
+				Media.class);
 	}
 
 	@Override
@@ -127,85 +116,75 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	@Override
 	public Playlist publishCurrentPlaylist(String publishedPlaylistName) {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/playlists/currentPlaylist/publish?title=" + publishedPlaylistName)
-				,null, Playlist.class);
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/currentPlaylist/publish?title="
+				+ publishedPlaylistName), null, Playlist.class);
 	}
 
 	@Override
 	public Playlist deleteTrackFromPlaylist(String playlistName, int trackIndex) {
 		requireAuthorization();
 
-		restTemplate.delete(getApiResourceUrl("/playlists/" + playlistName+ "/tracks/" + trackIndex));
+		restTemplate.delete(getApiResourceUrl("/playlists/" + playlistName + "/tracks/" + trackIndex));
 		return getPlaylist(playlistName);
 	}
 
 	@Override
 	public Playlist importExFmLovedSongs() {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/playlists/exfm_loved_songs/import")
-				,null, Playlist.class);
+		return restTemplate
+				.postForObject(getApiResourceUrl("/playlists/exfm_loved_songs/import"), null, Playlist.class);
 	}
 
 	@Override
 	public Playlist importSoundCloudFavorites() {
 		requireAuthorization();
-		return restTemplate.postForObject(getApiResourceUrl("/playlists/soundcloud_favorites/import")
-				,null, Playlist.class);
+		return restTemplate.postForObject(getApiResourceUrl("/playlists/soundcloud_favorites/import"), null,
+				Playlist.class);
 	}
 
 	@Override
-	public List<Media> searchLibrary(String q, MediaProvider[]  providers) {
+	public List<Media> searchLibrary(String q, MediaProvider[] providers) {
 		requireAuthorization();
-		String providersString = null;;
-		for (MediaProvider provider : providers)
-		{
-			if (providersString != null)
-			{
+		String providersString = null;
+		;
+		for (MediaProvider provider : providers) {
+			if (providersString != null) {
 				providersString = providersString + ",";
-			}
-			else
-			{
+			} else {
 				providersString = "";
 			}
 			providersString = providersString + provider.name();
 		}
-		
-		
+
 		String queryString = "?q=" + q + (providersString == null ? "" : ("&providers=" + providersString));
-		return restTemplate.getForObject(getApiResourceUrl("/library" + queryString),
-				MediaList.class);
+		return restTemplate.getForObject(getApiResourceUrl("/library" + queryString), MediaList.class);
 	}
-	
-	
+
 	@Override
-	public List<Media> searchTracks(String q, MediaProvider[]  providers) {
+	public List<Media> searchTracks(String q, MediaProvider[] providers) {
 		requireAuthorization();
 		String providersAsString = getProvidersAsString(providers);
 		String queryString = "?q=" + q + (providersAsString == null ? "" : ("&providers=" + providersAsString));
-		return restTemplate.getForObject(getApiResourceUrl("/searchTracks" + queryString),
-				MediaList.class);
+		return restTemplate.getForObject(getApiResourceUrl("/searchTracks" + queryString), MediaList.class);
 	}
-	
+
 	@Override
-	public List<PlaylistDescriptor> searchPlaylists(String q, MediaProvider[]  providers) {
+	public List<PlaylistDescriptor> searchPlaylists(String q, MediaProvider[] providers) {
 		requireAuthorization();
-		String providersAsString = getProvidersAsString(providers);;
+		String providersAsString = getProvidersAsString(providers);
+		;
 		String queryString = "?q=" + q + (providersAsString == null ? "" : ("&providers=" + providersAsString));
 		return restTemplate.getForObject(getApiResourceUrl("/searchPlaylists" + queryString),
 				PlaylistDescriptorList.class);
 	}
-	
-	private String getProvidersAsString(MediaProvider[] providers)
-	{
-		String providersAsString = null;;
-		for (MediaProvider provider : providers)
-		{
-			if (providersAsString != null)
-			{
+
+	private String getProvidersAsString(MediaProvider[] providers) {
+		String providersAsString = null;
+		;
+		for (MediaProvider provider : providers) {
+			if (providersAsString != null) {
 				providersAsString = providersAsString + ",";
-			}
-			else
-			{
+			} else {
 				providersAsString = "";
 			}
 			providersAsString = providersAsString + provider.name();
@@ -214,15 +193,12 @@ public class MeTemplate extends AbstractUserTemplate implements MeOperations {
 	}
 
 	@Override
-	public Playlist updatePlaylistVisibility(String playlistName,
-			PlaylistVisibility playlistVisibility) {
-		
+	public Playlist updatePlaylistVisibility(String playlistName, PlaylistVisibility playlistVisibility) {
+
 		requireAuthorization();
-	
+
 		return restTemplate.postForObject(getApiResourceUrl("/playlists/" + playlistName + "/playlistVisibility"),
 				playlistVisibility, Playlist.class);
 	}
-
-
 
 }

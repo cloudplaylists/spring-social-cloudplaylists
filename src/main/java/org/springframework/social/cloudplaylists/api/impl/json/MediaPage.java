@@ -17,7 +17,6 @@ package org.springframework.social.cloudplaylists.api.impl.json;
  */
 import com.cloudplaylists.domain.Media;
 
-
 /**
  * @author Michael Lavelle
  */

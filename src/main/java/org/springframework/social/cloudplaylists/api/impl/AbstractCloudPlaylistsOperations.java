@@ -32,8 +32,7 @@ public abstract class AbstractCloudPlaylistsOperations {
 	protected final boolean isAuthorizedForUser;
 	private String apiBaseUrl;
 
-	public AbstractCloudPlaylistsOperations(String apiBaseUrl,
-			RestTemplate restTemplate, boolean isAuthorizedForUser) {
+	public AbstractCloudPlaylistsOperations(String apiBaseUrl, RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		this.restTemplate = restTemplate;
 		this.isAuthorizedForUser = isAuthorizedForUser;
 		this.apiBaseUrl = apiBaseUrl;
@@ -44,19 +43,15 @@ public abstract class AbstractCloudPlaylistsOperations {
 			throw new MissingAuthorizationException("cloudplaylists");
 		}
 	}
-	
 
-	protected <T> void put(String url,T request)
-	{
+	protected <T> void put(String url, T request) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
-		HttpEntity<T> entity = new HttpEntity<T>(request,headers);
+		HttpEntity<T> entity = new HttpEntity<T>(request, headers);
 		restTemplate.put(url, entity);
 	}
-	
-	
 
 	protected String getApiBaseUrl() {
 		return apiBaseUrl;

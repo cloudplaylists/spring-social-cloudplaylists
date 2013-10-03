@@ -1,4 +1,5 @@
 package org.springframework.social.cloudplaylists.config.annotation;
+
 /*
  * Copyright 2013 the original author or authors.
  *
@@ -28,7 +29,10 @@ import org.springframework.social.config.annotation.AbstractProviderConfigRegist
 import org.springframework.social.security.provider.SocialAuthenticationService;
 
 /**
- * {@link ImportBeanDefinitionRegistrar} for configuring a {@link CloudPlaylistsConnectionFactory} bean and a request-scoped {@link CloudPlaylists} bean.
+ * {@link ImportBeanDefinitionRegistrar} for configuring a
+ * {@link CloudPlaylistsConnectionFactory} bean and a request-scoped
+ * {@link CloudPlaylists} bean.
+ * 
  * @author Michael Lavelle
  */
 public class CloudPlaylistsProviderConfigRegistrar extends AbstractProviderConfigRegistrarSupport {
@@ -36,51 +40,43 @@ public class CloudPlaylistsProviderConfigRegistrar extends AbstractProviderConfi
 	public CloudPlaylistsProviderConfigRegistrar() {
 		super(EnableCloudPlaylists.class, CloudPlaylistsConnectionFactory.class, CloudPlaylistsApiHelper.class);
 	}
-	
-	
-	@Override
-	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId,
-			String appSecret, Map<String, Object> allAttributes) {
-		return BeanDefinitionBuilder.genericBeanDefinition(connectionFactoryClass).
-		addConstructorArgValue(appId).addConstructorArgValue(appSecret).
-		addConstructorArgValue(getOauthAuthorizeUrl(allAttributes)).
-		addConstructorArgValue(getOauthTokenUrl(allAttributes)).
-		addConstructorArgValue(getOauthApiBaseUrl(allAttributes))
-		.getBeanDefinition();
-	}
-
 
 	@Override
-	protected BeanDefinition getAuthenticationServiceBeanDefinition(
-			String appId, String appSecret, Map<String, Object> allAttributes) {
-		return BeanDefinitionBuilder.genericBeanDefinition(authenticationServiceClass).
-		addConstructorArgValue(appId).addConstructorArgValue(appSecret).
-		addConstructorArgValue(getOauthAuthorizeUrl(allAttributes)).
-		addConstructorArgValue(getOauthTokenUrl(allAttributes)).
-		addConstructorArgValue(getOauthApiBaseUrl(allAttributes))
-		
-		.getBeanDefinition();
-
+	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret,
+			Map<String, Object> allAttributes) {
+		return BeanDefinitionBuilder.genericBeanDefinition(connectionFactoryClass).addConstructorArgValue(appId)
+				.addConstructorArgValue(appSecret).addConstructorArgValue(getOauthAuthorizeUrl(allAttributes))
+				.addConstructorArgValue(getOauthTokenUrl(allAttributes))
+				.addConstructorArgValue(getOauthApiBaseUrl(allAttributes)).getBeanDefinition();
 	}
 
+	@Override
+	protected BeanDefinition getAuthenticationServiceBeanDefinition(String appId, String appSecret,
+			Map<String, Object> allAttributes) {
+		return BeanDefinitionBuilder.genericBeanDefinition(authenticationServiceClass).addConstructorArgValue(appId)
+				.addConstructorArgValue(appSecret).addConstructorArgValue(getOauthAuthorizeUrl(allAttributes))
+				.addConstructorArgValue(getOauthTokenUrl(allAttributes))
+				.addConstructorArgValue(getOauthApiBaseUrl(allAttributes))
+
+				.getBeanDefinition();
+
+	}
 
 	@Override
 	protected Class<? extends SocialAuthenticationService<?>> getAuthenticationServiceClass() {
 		return CloudPlaylistsAuthenticationService.class;
 	}
-	
+
 	protected String getOauthAuthorizeUrl(Map<String, Object> allAttributes) {
-		return (String)allAttributes.get("oauthAuthorizeUrl");
+		return (String) allAttributes.get("oauthAuthorizeUrl");
 	}
-	
+
 	protected String getOauthTokenUrl(Map<String, Object> allAttributes) {
-		return (String)allAttributes.get("oauthTokenUrl");
+		return (String) allAttributes.get("oauthTokenUrl");
 	}
-	
+
 	protected String getOauthApiBaseUrl(Map<String, Object> allAttributes) {
-		return (String)allAttributes.get("oauthApiBaseUrl");
+		return (String) allAttributes.get("oauthApiBaseUrl");
 	}
-	
-	
 
 }

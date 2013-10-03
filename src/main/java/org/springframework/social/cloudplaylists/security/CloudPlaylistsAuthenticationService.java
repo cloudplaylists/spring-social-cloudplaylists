@@ -21,15 +21,14 @@ import org.springframework.social.security.provider.OAuth2AuthenticationService;
 
 /**
  * 
-* @author Michael Lavelle
- *
+ * @author Michael Lavelle
+ * 
  */
 public class CloudPlaylistsAuthenticationService extends OAuth2AuthenticationService<CloudPlaylists> {
 
-	public CloudPlaylistsAuthenticationService(String appKey,
-			String appSecret, String oauthAuthorizeUrl,
+	public CloudPlaylistsAuthenticationService(String appKey, String appSecret, String oauthAuthorizeUrl,
 			String oauthTokenUrl, String oauthApiBaseUrl) {
-		super(new CloudPlaylistsConnectionFactory(appKey, appSecret,oauthAuthorizeUrl,oauthTokenUrl,oauthApiBaseUrl));
+		super(new CloudPlaylistsConnectionFactory(appKey, appSecret, oauthAuthorizeUrl, oauthTokenUrl, oauthApiBaseUrl));
 	}
 
 }

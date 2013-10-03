@@ -23,23 +23,17 @@ import org.springframework.social.connect.support.OAuth2ConnectionFactory;
  * 
  * @author Michael Lavelle
  */
-public class CloudPlaylistsConnectionFactory extends
-		OAuth2ConnectionFactory<CloudPlaylists> {
+public class CloudPlaylistsConnectionFactory extends OAuth2ConnectionFactory<CloudPlaylists> {
 
-	public CloudPlaylistsConnectionFactory(String clientId,
-			String clientSecret, String oauthAuthorizeUrl,
+	public CloudPlaylistsConnectionFactory(String clientId, String clientSecret, String oauthAuthorizeUrl,
 			String oauthTokenUrl, String oauthApiBaseUrl) {
-		super("cloudplaylists",
-				new CloudPlaylistsServiceProvider(clientId, clientSecret,
-						oauthAuthorizeUrl, oauthTokenUrl, oauthApiBaseUrl),
-				new CloudPlaylistsAdapter());
+		super("cloudplaylists", new CloudPlaylistsServiceProvider(clientId, clientSecret, oauthAuthorizeUrl,
+				oauthTokenUrl, oauthApiBaseUrl), new CloudPlaylistsAdapter());
 	}
 
 	@Override
 	public boolean supportsStateParameter() {
 		return false;
 	}
-	
-	
 
 }

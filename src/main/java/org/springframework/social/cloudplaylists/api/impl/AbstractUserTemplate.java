@@ -28,41 +28,35 @@ import com.cloudplaylists.domain.PlaylistDescriptor;
 /**
  * @author Michael Lavelle
  */
-public abstract class AbstractUserTemplate extends
-		AbstractCloudPlaylistsResourceOperations implements UserOperations {
+public abstract class AbstractUserTemplate extends AbstractCloudPlaylistsResourceOperations implements UserOperations {
 
-	public AbstractUserTemplate(String oauthApiBaseUrl,
-			RestTemplate restTemplate, boolean isAuthorizedForUser) {
+	public AbstractUserTemplate(String oauthApiBaseUrl, RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(oauthApiBaseUrl, restTemplate, isAuthorizedForUser);
 	}
 
 	@Override
 	public CloudPlaylistsProfile getUserProfile() {
-		return restTemplate.getForObject(getApiResourceUrl(""),
-				CloudPlaylistsProfile.class);
+		return restTemplate.getForObject(getApiResourceUrl(""), CloudPlaylistsProfile.class);
 	}
 
 	@Override
 	public Page<Playlist> getPlaylists() {
 
-		return restTemplate.getForObject(getApiResourceUrl("/playlists"),
-				PlaylistPage.class);
+		return restTemplate.getForObject(getApiResourceUrl("/playlists"), PlaylistPage.class);
 
 	}
-	
+
 	@Override
 	public Page<PlaylistDescriptor> getPlaylistDescriptors() {
 
-		return restTemplate.getForObject(getApiResourceUrl("/playlists/descriptors"),
-				PlaylistDescriptorPage.class);
+		return restTemplate.getForObject(getApiResourceUrl("/playlists/descriptors"), PlaylistDescriptorPage.class);
 
 	}
 
 	@Override
 	public Playlist getPlaylist(String playlistName) {
 
-		return restTemplate.getForObject(getApiResourceUrl("/playlists/"
-				+ playlistName), Playlist.class);
+		return restTemplate.getForObject(getApiResourceUrl("/playlists/" + playlistName), Playlist.class);
 
 	}
 

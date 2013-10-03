@@ -33,18 +33,14 @@ public class CloudPlaylistsAdapter implements ApiAdapter<CloudPlaylists> {
 
 	@Override
 	public UserProfile fetchUserProfile(CloudPlaylists cloudPlaylists) {
-		CloudPlaylistsProfile profile = cloudPlaylists.meOperations()
-				.getUserProfile();
-		return new UserProfileBuilder().setName(profile.getDisplayName())
-				.setUsername(profile.getUserName()).build();
+		CloudPlaylistsProfile profile = cloudPlaylists.meOperations().getUserProfile();
+		return new UserProfileBuilder().setName(profile.getDisplayName()).setUsername(profile.getUserName()).build();
 
 	}
 
 	@Override
-	public void setConnectionValues(CloudPlaylists cloudPlaylists,
-			ConnectionValues values) {
-		CloudPlaylistsProfile profile = cloudPlaylists.meOperations()
-				.getUserProfile();
+	public void setConnectionValues(CloudPlaylists cloudPlaylists, ConnectionValues values) {
+		CloudPlaylistsProfile profile = cloudPlaylists.meOperations().getUserProfile();
 		values.setProviderUserId(profile.getUserName());
 		values.setDisplayName(profile.getDisplayName());
 		values.setProfileUrl(profile.getProfileUrl());

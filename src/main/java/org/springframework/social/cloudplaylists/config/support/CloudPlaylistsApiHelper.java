@@ -25,8 +25,9 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.UsersConnectionRepository;
 
 /**
- * Support class for JavaConfig and XML configuration support.
- * Creates an API binding instance for the current user's connection.
+ * Support class for JavaConfig and XML configuration support. Creates an API
+ * binding instance for the current user's connection.
+ * 
  * @author Michael Lavelle
  */
 public class CloudPlaylistsApiHelper implements ApiHelper<CloudPlaylists> {
@@ -34,19 +35,19 @@ public class CloudPlaylistsApiHelper implements ApiHelper<CloudPlaylists> {
 	private final UsersConnectionRepository usersConnectionRepository;
 
 	private final UserIdSource userIdSource;
-	
 
 	private CloudPlaylistsApiHelper(UsersConnectionRepository usersConnectionRepository, UserIdSource userIdSource) {
 		this.usersConnectionRepository = usersConnectionRepository;
-		this.userIdSource = userIdSource;		
+		this.userIdSource = userIdSource;
 	}
 
 	public CloudPlaylists getApi() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Getting API binding instance for CloudPlaylists");
 		}
-		
-		Connection<CloudPlaylists> connection = usersConnectionRepository.createConnectionRepository(userIdSource.getUserId()).findPrimaryConnection(CloudPlaylists.class);
+
+		Connection<CloudPlaylists> connection = usersConnectionRepository.createConnectionRepository(
+				userIdSource.getUserId()).findPrimaryConnection(CloudPlaylists.class);
 		if (logger.isDebugEnabled() && connection == null) {
 			logger.debug("No current connection; Returning default CloudPlaylistsTemplate instance.");
 		}

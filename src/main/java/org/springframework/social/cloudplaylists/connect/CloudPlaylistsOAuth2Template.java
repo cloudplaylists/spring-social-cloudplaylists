@@ -30,16 +30,14 @@ public class CloudPlaylistsOAuth2Template extends OAuth2Template {
 
 	private String clientSecret;
 
-	public CloudPlaylistsOAuth2Template(String clientId, String clientSecret,
-			String oauthAuthorizeUrl, String oauthTokenUrl) {
+	public CloudPlaylistsOAuth2Template(String clientId, String clientSecret, String oauthAuthorizeUrl,
+			String oauthTokenUrl) {
 		super(clientId, clientSecret, oauthAuthorizeUrl, oauthTokenUrl);
 		this.clientSecret = clientSecret;
 	}
 
 	@Override
-	public String buildAuthorizeUrl(GrantType grantType,
-			OAuth2Parameters parameters) {
-		parameters.add("client_secret", clientSecret);
+	public String buildAuthorizeUrl(GrantType grantType, OAuth2Parameters parameters) {
 		parameters.add("scope", "read");
 		parameters.add("state", UUID.randomUUID().toString());
 

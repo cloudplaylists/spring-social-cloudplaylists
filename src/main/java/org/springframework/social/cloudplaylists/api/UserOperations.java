@@ -29,7 +29,7 @@ public interface UserOperations {
 	public CloudPlaylistsProfile getUserProfile();
 
 	public Page<Playlist> getPlaylists();
-	
+
 	public Page<? extends PlaylistDescriptor> getPlaylistDescriptors();
 
 	public Playlist getPlaylist(String playlistName);

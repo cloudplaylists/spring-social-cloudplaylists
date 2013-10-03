@@ -30,13 +30,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Michael Lavelle
  */
-public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
-		CloudPlaylists {
+public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements CloudPlaylists {
 
 	private MeOperations meOperations;
 	private UsersOperations usersOperations;
 	private SearchOperations searchOperations;
-	
+
 	private ObjectMapper objectMapper;
 
 	/**
@@ -66,22 +65,16 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 		super(accessToken);
 		initialize(oauthApiBaseUrl, accessToken);
 	}
-	
-
 
 	private void initSubApis(String oauthApiBaseUrl, String accessToken) {
 
-		meOperations = new MeTemplate(oauthApiBaseUrl, getRestTemplate(),
-				isAuthorized());
-		usersOperations = new UsersTemplate(oauthApiBaseUrl, getRestTemplate(),
-				isAuthorized());
+		meOperations = new MeTemplate(oauthApiBaseUrl, getRestTemplate(), isAuthorized());
+		usersOperations = new UsersTemplate(oauthApiBaseUrl, getRestTemplate(), isAuthorized());
 
-		searchOperations = new SearchTemplate(oauthApiBaseUrl, getRestTemplate(),
-				isAuthorized());
+		searchOperations = new SearchTemplate(oauthApiBaseUrl, getRestTemplate(), isAuthorized());
 
 	}
-	
-	
+
 	@Override
 	protected void configureRestTemplate(RestTemplate restTemplate) {
 		restTemplate.setErrorHandler(new CloudPlaylistsErrorHandler());
@@ -89,20 +82,17 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 
 	@Override
 	protected MappingJackson2HttpMessageConverter getJsonMessageConverter() {
-		MappingJackson2HttpMessageConverter converter = super
-				.getJsonMessageConverter();
+		MappingJackson2HttpMessageConverter converter = super.getJsonMessageConverter();
 		objectMapper = new ObjectMapper();
 		converter.setObjectMapper(objectMapper);
 		return converter;
 	}
-	
 
 	// private helpers
 	private void initialize(String apiBaseUrl, String accessToken) {
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so
 		// that the error handler can do repeat reads on the response.getBody()
-		super.setRequestFactory(ClientHttpRequestFactorySelector
-				.bufferRequests(getRestTemplate().getRequestFactory()));
+		super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(getRestTemplate().getRequestFactory()));
 		initSubApis(apiBaseUrl, accessToken);
 
 	}
@@ -116,8 +106,7 @@ public class CloudPlaylistsTemplate extends AbstractOAuth2ApiBinding implements
 	public UsersOperations usersOperations() {
 		return usersOperations;
 	}
-	
-	
+
 	@Override
 	public SearchOperations searchOperations() {
 		return searchOperations;

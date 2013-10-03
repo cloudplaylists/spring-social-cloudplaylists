@@ -43,15 +43,13 @@ public abstract class AbstractCloudPlaylistsApiTest {
 
 		cloudplaylists = new CloudPlaylistsTemplate(API_BASE_URL, ACCESS_TOKEN);
 
-		mockServer = MockRestServiceServer.createServer(cloudplaylists
-				.getRestTemplate());
+		mockServer = MockRestServiceServer.createServer(cloudplaylists.getRestTemplate());
 
 		responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		unauthorizedCloudPlaylists = new CloudPlaylistsTemplate(API_BASE_URL);
-		mockUnauthorizedServer = MockRestServiceServer
-				.createServer(unauthorizedCloudPlaylists.getRestTemplate());
+		mockUnauthorizedServer = MockRestServiceServer.createServer(unauthorizedCloudPlaylists.getRestTemplate());
 	}
 
 	protected Resource jsonResource(String filename) {
